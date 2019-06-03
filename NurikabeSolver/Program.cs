@@ -14,9 +14,11 @@ namespace NurikabeSolver
         [STAThread]
         static void Main()
         {
+            var controller = new Controller();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            Application.Run(new View(controller));
         }
     }
 }
