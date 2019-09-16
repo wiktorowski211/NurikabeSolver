@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +11,7 @@ namespace NurikabeSolver
         public void Solve()
         {
             // Invoke Prolog solver
+            // Nie wiem czy kontroler jest potrzebny, bo my przy uruchomieniu pogramu mamy juz przekazant wynik z prologa
         }
 
         public void NewGame()

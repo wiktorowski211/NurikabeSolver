@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 
 namespace NurikabeSolver
 {
@@ -32,8 +32,8 @@ namespace NurikabeSolver
         {
             this.gameGrid = new System.Windows.Forms.DataGridView();
             this.buttonEdit = new System.Windows.Forms.Button();
-            this.buttonNewGame = new System.Windows.Forms.Button();
             this.buttonSolve = new System.Windows.Forms.Button();
+            this.buttonInformation = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gameGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,25 +61,25 @@ namespace NurikabeSolver
             this.gameGrid.TabIndex = 0;
             this.gameGrid.CellClick += GameGrid_CellClick;
             // 
+            // buttonInformation
+            // 
+            this.buttonInformation.Location = new System.Drawing.Point(557, 12);
+            this.buttonInformation.Name = "buttonInformation";
+            this.buttonInformation.Size = new System.Drawing.Size(31, 44);
+            this.buttonInformation.TabIndex = 1;
+            this.buttonInformation.Text = "i";
+            this.buttonInformation.UseVisualStyleBackColor = true;
+            this.buttonInformation.Click += new System.EventHandler(this.buttonInformation_Click);
+            // 
             // buttonEdit
             // 
-            this.buttonEdit.Location = new System.Drawing.Point(401, 12);
+            this.buttonEdit.Location = new System.Drawing.Point(12, 12);
             this.buttonEdit.Name = "buttonEdit";
             this.buttonEdit.Size = new System.Drawing.Size(187, 44);
-            this.buttonEdit.TabIndex = 1;
+            this.buttonEdit.TabIndex = 2;
             this.buttonEdit.Text = "Edit";
             this.buttonEdit.UseVisualStyleBackColor = true;
             this.buttonEdit.Click += new System.EventHandler(this.buttonEdit_Click);
-            // 
-            // buttonNewGame
-            // 
-            this.buttonNewGame.Location = new System.Drawing.Point(12, 12);
-            this.buttonNewGame.Name = "buttonNewGame";
-            this.buttonNewGame.Size = new System.Drawing.Size(187, 44);
-            this.buttonNewGame.TabIndex = 2;
-            this.buttonNewGame.Text = "New game";
-            this.buttonNewGame.UseVisualStyleBackColor = true;
-            this.buttonNewGame.Click += new System.EventHandler(this.buttonNewGame_Click);
             // 
             // buttonSolve
             // 
@@ -97,7 +97,7 @@ namespace NurikabeSolver
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(600, 650);
             this.Controls.Add(this.buttonSolve);
-            this.Controls.Add(this.buttonNewGame);
+            this.Controls.Add(this.buttonInformation);
             this.Controls.Add(this.buttonEdit);
             this.Controls.Add(this.gameGrid);
             this.Name = "View";
@@ -112,8 +112,7 @@ namespace NurikabeSolver
 
         private System.Windows.Forms.DataGridView gameGrid;
         private System.Windows.Forms.Button buttonEdit;
-        private System.Windows.Forms.Button buttonNewGame;
+        private System.Windows.Forms.Button buttonInformation;
         private System.Windows.Forms.Button buttonSolve;
     }
 }
-
