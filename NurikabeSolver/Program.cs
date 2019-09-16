@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NurikabeSolver.Controllers;
+using NurikabeSolver.Views;
 
 namespace NurikabeSolver
 {
@@ -18,7 +20,7 @@ namespace NurikabeSolver
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new View(controller));
+            Application.Run(new MainForm(controller));
         }
     }
 }

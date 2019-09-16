@@ -1,8 +1,8 @@
 ﻿using System.Drawing;
 
-namespace NurikabeSolver
+namespace NurikabeSolver.Views
 {
-    partial class View
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.

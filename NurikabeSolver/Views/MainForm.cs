@@ -7,19 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NurikabeSolver.Controllers;
 
-namespace NurikabeSolver
+namespace NurikabeSolver.Views
 {
-    public partial class View : Form
+    public partial class MainForm : Form
     {
         Controller controller;
 
-        public View(Controller controller)
+        public MainForm(Controller controller)
         {
             InitializeComponent();
 
             this.controller = controller;
-
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -89,36 +89,6 @@ namespace NurikabeSolver
                 buttonEdit.Text = "Edit";
 
             gameGrid.ReadOnly = !gameGrid.ReadOnly;
-        }
-    }
-
-
-    public static class Extensions
-    {
-        public static void SetValue(this DataGridViewCell cell, int value)
-        {
-            cell.Value = value;
-        }
-
-        public static void SetColor(this DataGridViewCell cell, Color color)
-        {
-            cell.Style.BackColor = color;
-            cell.Style.SelectionBackColor = color;
-        }
-
-        public static object GetValue(this DataGridViewCell cell)
-        {
-            return cell.Value;
-        }
-
-        public static Color GetColor(this DataGridViewCell cell)
-        {
-            return cell.Style.BackColor; 
-        }
-
-        public static bool IsEmpty(this DataGridViewCell cell)
-        {
-            return cell.Value == null;
         }
     }
 }
