@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NurikabeSolver;
 
 namespace NurikabeSolver.Controllers
 {
@@ -14,6 +15,8 @@ namespace NurikabeSolver.Controllers
 
         public void Solve()
         {
+            PrologCommunication.InitializeProlog();
+            var result = PrologCommunication.SendIslands(5, "[[1,3,3],[2,2,3],[5,1,2],[5,5,4]]");
 
         }
 
