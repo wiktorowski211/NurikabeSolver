@@ -45,7 +45,7 @@ namespace NurikabeSolver
         public static int[][] SendIslands(int size, string islands)
         {
             // Prolog interface indexed from 1
-            using (var q = new PlQuery($"nurikabe_solver({size}, {islands} ,EG)"))
+            using (var q = new PlQuery($"delay_test({size}, {islands} ,EG)"))
             {
                 Console.WriteLine("Returned board:");
                 //  q.Variables["P"].Unify("uwe");
@@ -57,6 +57,7 @@ namespace NurikabeSolver
                     // Specification of NurikabeSolver says that Prolog might return empty list [[]] when there's no solution.
                     if (result != null && result[0].Length != size)
                     {
+                        Console.WriteLine("No result found. Empty list.");
                         return null;
                     }
 
@@ -68,11 +69,11 @@ namespace NurikabeSolver
                         }
                         Console.WriteLine();
                     }
+                    Console.WriteLine("Board returned succesfully.");
                     return result;
                 }
             }
-            Console.WriteLine("finshed!");
-            Console.ReadLine();
+            Console.WriteLine("No result found. False.");
             return null;
         }
     }
