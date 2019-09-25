@@ -20,32 +20,43 @@ namespace NurikabeSolver.Controllers
             }
         }
 
-        private Sea(int[][] board)
+        private Sea(int[][] prolog)
         {
-            for (int i = 0; i < board.Length; i++)
+            for (int i = 0; i < prolog.Length; i++)
             {
-                sea.Add(board[i]);
+                sea.Add(prolog[i]);
             }
         }
 
-        public static Sea FromFile(string file)
+        private Sea(int size)
         {
-            return new Sea(file);
-        }
-
-        public static Sea FromBoard(int[][] board)
-        {
-            return new Sea(board);
-        }
-
-        public override string ToString()
-        {
-            var builder = new StringBuilder();
-            foreach (var row in sea)
+            for (int i = 0; i < size; i++)
             {
-                builder.AppendLine(row.ToPrologList());
+                sea.Add(new int[size]);
             }
-            return builder.ToString();
+
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    sea[i][j] = 1;
+                }
+            }
+        }
+
+        public static Sea Empty(int size)
+        {
+            return new Sea(size);
+        }
+
+        public static Sea FromProlog(int[][] prolog)
+        {
+            return new Sea(prolog);
+        }
+
+        public int[][] GetAll()
+        {
+            return sea.ToArray();
         }
     }
 }

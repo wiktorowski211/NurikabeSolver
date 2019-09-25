@@ -4,62 +4,27 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using NurikabeSolver;
 
 namespace NurikabeSolver.Controllers
 {
     public class Controller
     {
-        readonly string ISLANDS_FILENAME = "BG.txt";
-        readonly string SEA_FILENAME = "EG.txt";
-
-        public void Solve()
+        public Board Solve(Board board)
         {
             PrologCommunication.InitializeProlog();
-            var result = PrologCommunication.SendIslands(5, "[[1,3,3],[2,2,3],[5,1,2],[5,5,4]]");
 
-        }
+            var islands = board.Islands.ToString();
 
-        public void NewGame()
-        {
-            TestIslands();
-            TestSea();
-        }
+            var result = PrologCommunication.SendIslands(5, islands);
 
-        void TestIslands()
-        {
-            int[][] board = new int[][]
-            {
-                new int[] { 0, 0, 3 },
-                new int[] { 0, 2, 1 },
-                new int[] { 0, 0, 0 }
-            };
+            if (result == null)
+                return null;
 
-            var islands = Islands.FromBoard(board);
+            var result_sea = Sea.FromProlog(result);
 
-            SaveToFile(islands.ToString(), ISLANDS_FILENAME);
-
-            var file = ReadFromFile(ISLANDS_FILENAME);
-
-            var islands2 = Islands.FromFile(file);
-        }
-
-        void TestSea()
-        {
-            int[][] board = new int[][]
-            {
-                new int[] { 0, 0, 1 },
-                new int[] { 1, 1, 1 },
-                new int[] { 0, 1, 0 }
-            };
-
-            var sea = Sea.FromBoard(board);
-
-            SaveToFile(sea.ToString(), SEA_FILENAME);
-
-            var file = ReadFromFile(SEA_FILENAME);
-
-            var sea2 = Sea.FromFile(file);
+            return Board.FromProlog(board, result_sea);
         }
 
         void SaveToFile(string text, string filename)
