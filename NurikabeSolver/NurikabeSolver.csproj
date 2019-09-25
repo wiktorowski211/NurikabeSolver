@@ -49,12 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\Board.cs" />
+    <Compile Include="Models\Board.cs" />
     <Compile Include="Strings.cs" />
     <Compile Include="PrologCommunication.cs" />
     <Compile Include="Controllers\Controller.cs" />
-    <Compile Include="Controllers\Islands.cs" />
-    <Compile Include="Controllers\Sea.cs" />
+    <Compile Include="Models\Islands.cs" />
+    <Compile Include="Models\Sea.cs" />
     <Compile Include="Extenstions.cs" />
     <Compile Include="Views\MainForm.cs">
       <SubType>Form</SubType>
