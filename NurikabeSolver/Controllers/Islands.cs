@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace NurikabeSolver.Controllers
@@ -12,23 +13,26 @@ namespace NurikabeSolver.Controllers
 
         private Islands(string file)
         {
-            foreach (var line in file.Split(new[] { '\r', '\n' }).Where(x => x.Length > 0))
+            string pattern = @"\[\d,\d,\d\]";
+            Regex rgx = new Regex(pattern);
+
+            foreach (Match match in rgx.Matches(file))
             {
-                var deserializedList = line.FromPrologList();
+                var deserializedList = match.Value.FromPrologList();
 
                 islands.Add(deserializedList);
             }
         }
 
-        private Islands(int[][] board)
+        private Islands(int[][] grid)
         {
-            for (int i = 0; i < board.Length; i++)
+            for (int i = 0; i < grid.Length; i++)
             {
-                for (int j = 0; j < board[i].Length; j++)
+                for (int j = 0; j < grid[i].Length; j++)
                 {
-                    if (board[i][j] > 0)
+                    if (grid[i][j] > 0)
                     {
-                        var island = new int[] { i, j, board[i][j] };
+                        var island = new int[] { i + 1, j + 1, grid[i][j] };
 
                         islands.Add(island);
                     }
@@ -36,23 +40,36 @@ namespace NurikabeSolver.Controllers
             }
         }
 
+        private Islands()
+        {
+        }
+
         public static Islands FromFile(string file)
         {
             return new Islands(file);
         }
 
-        public static Islands FromBoard(int[][] board)
+        public static Islands FromGrid(int[][] grid)
         {
-            return new Islands(board);
+            return new Islands(grid);
+        }
+
+        public static Islands Empty()
+        {
+            return new Islands();
+        }
+
+        public int[][] GetAll()
+        {
+            return islands.ToArray();
         }
 
         public override string ToString()
         {
             var builder = new StringBuilder();
-            foreach (var row in islands)
-            {
-                builder.AppendLine(row.ToPrologList());
-            }
+            builder.Append("[");
+            builder.Append(string.Join(",", islands.Select(x => x.ToPrologList())));
+            builder.Append("]");
             return builder.ToString();
         }
     }

@@ -29,31 +29,10 @@ namespace NurikabeSolver
                     .ToArray();
         }
 
-
-        public static void SetValue(this DataGridViewCell cell, int value)
-        {
-            cell.Value = value;
-        }
-
         public static void SetColor(this DataGridViewCell cell, Color color)
         {
             cell.Style.BackColor = color;
             cell.Style.SelectionBackColor = color;
-        }
-
-        public static object GetValue(this DataGridViewCell cell)
-        {
-            return cell.Value;
-        }
-
-        public static Color GetColor(this DataGridViewCell cell)
-        {
-            return cell.Style.BackColor;
-        }
-
-        public static bool IsEmpty(this DataGridViewCell cell)
-        {
-            return cell.Value == null;
         }
     }
 }

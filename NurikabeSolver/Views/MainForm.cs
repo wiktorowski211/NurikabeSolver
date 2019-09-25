@@ -24,25 +24,38 @@ namespace NurikabeSolver.Views
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            CreateGrid();
-
-            GetCell(0, 0).SetValue(1);
-            GetCell(2, 0).SetValue(3);
-            GetCell(4, 0).SetValue(5);
-            GetCell(0, 2).SetValue(5);
+            NewGame(Board.Empty(5));
         }
 
-        private void CreateGrid()
+        private void NewGame(Board board)
         {
-            controller.NewGame();
+            SetMessage(Strings.EMPTY);
 
-            for (int i = 0; i < 5; i++)
+            InitializeGrid(board);
+        }
+
+        private void InitializeGrid(Board board)
+        {
+            ClearGrid();
+            CreateGrid(board);
+            StrechRows();
+            FillGrid(board);
+            RedrawGrid();
+        }
+
+        private void ClearGrid()
+        {
+            gameGrid.Columns.Clear();
+            gameGrid.Rows.Clear();
+        }
+
+        private void CreateGrid(Board board)
+        {
+            for (int i = 0; i < board.Size; i++)
             {
                 gameGrid.Columns.Add("", "");
                 gameGrid.Rows.Add();
             }
-
-            StrechRows();
         }
 
         private void StrechRows()
@@ -55,40 +68,123 @@ namespace NurikabeSolver.Views
             }
         }
 
-        private DataGridViewCell GetCell(int row, int column)
+        private void FillGrid(Board board)
         {
-            return gameGrid.Rows[row].Cells[column];
+            FillIslands(board.Islands);
+            FillSea(board.Sea);
         }
 
-        private void GameGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void FillIslands(Islands islands)
         {
-            var cell = GetCell(e.RowIndex, e.ColumnIndex);
+            foreach (var island in islands.GetAll())
+            {
+                var row = island[0] - 1;
+                var column = island[1] - 1;
+                var size = island[2];
 
-            if (gameGrid.ReadOnly && cell.IsEmpty())
-                if (cell.GetColor() == Color.Black)
-                    cell.SetColor(Color.White);
-                else
-                    cell.SetColor(Color.Black);
+                gameGrid.Rows[row].Cells[column].Value = size;
+            }
+        }
+
+        private void FillSea(Sea sea)
+        {
+            var sea_array = sea.GetAll();
+
+            for (int i = 0; i < sea_array.Length; i++)
+            {
+                for (int j = 0; j < sea_array.Length; j++)
+                {
+                    if (sea_array[i][j] == 0)
+                        gameGrid.Rows[i].Cells[j].SetColor(Color.Black);
+                }
+            }
+        }
+
+        private void RedrawGrid()
+        {
+            gameGrid.Invalidate();
         }
 
         private void buttonNewGame_Click(object sender, EventArgs e)
         {
-            controller.NewGame();
+            OpenNewGameForm();
+        }
+
+        private void OpenNewGameForm()
+        {
+            using (var form = new NewGameForm())
+            {
+                form.ShowDialog();
+
+                if (form.DialogResult == DialogResult.OK)
+                {
+                    InitializeGrid(form.Board);
+                    SetMessage(Strings.FILL_ISLANDS_SIZE);
+                }
+            }
         }
 
         private void buttonSolve_Click(object sender, EventArgs e)
         {
-            controller.Solve();
+            Solve();
         }
 
-        private void buttonEdit_Click(object sender, EventArgs e)
+        private Board BoardFromGrid()
         {
-            if (gameGrid.ReadOnly)
-                buttonEdit.Text = "Save";
-            else
-                buttonEdit.Text = "Edit";
+            int board_size = gameGrid.Rows.Count;
 
-            gameGrid.ReadOnly = !gameGrid.ReadOnly;
+            int[][] grid = GetGrid(board_size);
+
+            var islands = Islands.FromGrid(grid);
+
+            return Board.FromGrid(board_size, islands);
+        }
+
+        private int[][] GetGrid(int board_size)
+        {
+            int[][] grid = new int[board_size][];
+
+            for (int i = 0; i < board_size; i++)
+            {
+                grid[i] = new int[board_size];
+            }
+
+            for (int i = 0; i < gameGrid.Rows.Count; i++)
+            {
+                for (int j = 0; j < gameGrid.Columns.Count; j++)
+                {
+                    var island_size_object = gameGrid.Rows[i].Cells[j].Value;
+
+                    if (island_size_object != null)
+                        grid[i][j] = int.Parse(island_size_object.ToString());
+                }
+            }
+            return grid;
+        }
+
+        private void Solve()
+        {
+            SetMessage(Strings.SOLVING);
+
+            var board_from_grid = BoardFromGrid();
+
+            var result_board = controller.Solve(board_from_grid);
+
+            if(result_board != null)
+            {
+                InitializeGrid(result_board);
+
+                SetMessage(Strings.SOLVED);
+            }
+            else
+            {
+                SetMessage(Strings.NOT_SOLVED);
+            }
+        }
+
+        private void SetMessage(string message)
+        {
+            messageText.Text = message;
         }
     }
 }
