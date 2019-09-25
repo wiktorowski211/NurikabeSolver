@@ -17,7 +17,7 @@ namespace NurikabeSolver.Controllers
 
             var islands = board.Islands.ToString();
 
-            var result = PrologCommunication.SendIslands(5, islands);
+            var result = PrologCommunication.SendIslands(board.Size, islands);
 
             if (result == null)
                 return null;
@@ -25,22 +25,6 @@ namespace NurikabeSolver.Controllers
             var result_sea = Sea.FromProlog(result);
 
             return Board.FromProlog(board, result_sea);
-        }
-
-        void SaveToFile(string text, string filename)
-        {
-            using (StreamWriter file = new StreamWriter(filename))
-            {
-                file.Write(text);
-            }
-        }
-
-        string ReadFromFile(string filename)
-        {
-            using (StreamReader file = new StreamReader(filename))
-            {
-                return file.ReadToEnd();
-            }
         }
     }
 }
